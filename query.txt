@@ -1,0 +1,40 @@
+create database LeaveManagement
+
+use LeaveManagement
+
+create table tbl_user(
+Id int identity(1,1) NOT NULL,
+first_name nvarchar(150) NOT NULL,
+last_name nvarchar(150) NOT NULL,
+email nvarchar(150) NOT NULL,
+password nvarchar(150) NOT NULL,
+contact nvarchar(30) NOT NULL,
+created_date Date NOT NULL,
+updated_date Date NOT NULL,
+constraint pk_tbl_user primary key clustered (Id) 
+)
+
+create table tbl_leave_type(
+Id int identity(1,1) NOT NULL,
+user_id int NOT NULL,
+name nvarchar(250) NOT NULL,
+created_date Date NOT NULL,
+updated_date Date NOT NULL,
+constraint pk_tbl_leave_type primary key clustered (Id),
+constraint fk_tbl_user_id foreign key (user_id) references dbo.tbl_user(Id)
+on delete cascade
+)
+
+create table tbl_leave(
+Id int identity(1,1) NOT NULL,
+leave_title nvarchar(250) NOT NULL,
+leave_description nvarchar(500) NOT NULL,
+leave_type int,
+from_date Date NOT NULL,
+to_date Date NOT NULL,
+created_date Date NOT NULL,
+updated_date Date NOT NULL,
+constraint pk_tbl_leave primary key clustered (Id),
+constraint fk_tbl_leave_type_id foreign key (leave_type) references dbo.tbl_leave_type(Id)
+on delete cascade
+)
